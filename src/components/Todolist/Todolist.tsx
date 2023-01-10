@@ -1,14 +1,36 @@
-import React from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {TodolistType} from "../../App";
 
 
 export const Todolist = (props: TodolistType) => {
+
+    const [newTask, setNewTask] = useState('')
+
+    const onClickHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setNewTask(e.currentTarget.value)
+    }
+
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+        if(event.key === 'Enter'){
+            addTask()
+        }
+    }
+
+    const addTask = () =>{
+        props.addTask(newTask)
+        setNewTask('')
+    }
+
+    const callBackRemoveTask = (id: string) => {
+        props.removeTask(id)
+    }
+
     return (
         <div>
             <h3>{props.title}</h3>
             <div>
-                <input/>
-                <button>+</button>
+                <input value={newTask} onChange={onClickHandler} onKeyPress={onKeyPressHandler}/>
+                <button onClick={addTask}>+</button>
             </div>
             <ul>
                 {props.tasks.map(t => {
@@ -16,10 +38,7 @@ export const Todolist = (props: TodolistType) => {
                         <li key={t.id}>
                             <input type='checkbox' checked={t.isDone}/>
                             <span>{t.title}</span>
-                            <button onClick={() => {
-                                props.removeTask(t.id)
-                            }}>x
-                            </button>
+                            <button onClick={() => {callBackRemoveTask(t.id)}}>x</button>
                         </li>
                     )
                 })}
