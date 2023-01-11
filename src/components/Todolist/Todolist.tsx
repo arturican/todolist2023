@@ -36,7 +36,7 @@ export const Todolist = (props: TodolistType) => {
                 {props.tasks.map(t => {
                     return (
                         <li key={t.id}>
-                            <input type='checkbox' checked={t.isDone}/>
+                            <input type='checkbox' checked={t.isDone} onChange={(e)=>{props.changeStatus(t.id, e.currentTarget.checked)}}/>
                             <span>{t.title}</span>
                             <button onClick={() => {callBackRemoveTask(t.id)}}>x</button>
                         </li>

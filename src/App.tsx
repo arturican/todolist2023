@@ -10,6 +10,7 @@ export type TodolistType = {
     removeTask: (id: string) => void
     filteredTask: (filter: FilterTaskType) => void
     addTask: (title: string) => void
+    changeStatus: (taskId: string, isDone: boolean) => void
 }
 type TodolistTasksType = {
     id: string
@@ -40,6 +41,14 @@ function App() {
         setFilter(filter)
     }
 
+    const changeStatus = (taskId: string, isDone: boolean) => {
+     const  task = tasks.find(t => t.id === taskId)
+        if (task) {
+            task.isDone = isDone
+        }
+        setTasks([...tasks])
+    }
+
     let tasksForTodolist = tasks;
     if (filter === 'completed') {
         tasksForTodolist = tasks.filter(t => t.isDone)
@@ -56,6 +65,7 @@ function App() {
                 removeTask={removeTask}
                 filteredTask={filteredTask}
                 addTask={addTask}
+                changeStatus={changeStatus}
             />
         </div>
     );
