@@ -11,6 +11,7 @@ export type TodolistType = {
     filteredTask: (filter: FilterTaskType) => void
     addTask: (title: string) => void
     changeStatus: (taskId: string, isDone: boolean) => void
+    filter: FilterTaskType
 }
 type TodolistTasksType = {
     id: string
@@ -66,6 +67,7 @@ function App() {
                 filteredTask={filteredTask}
                 addTask={addTask}
                 changeStatus={changeStatus}
+                filter={filter}
             />
         </div>
     );
