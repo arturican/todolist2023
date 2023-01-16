@@ -1,8 +1,8 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
-import {TodolistType} from "../../App";
+import {TodolistAllType} from "../../App";
 
 
-export const Todolist = (props: TodolistType) => {
+export const Todolist = (props: TodolistAllType) => {
 
     const [newTask, setNewTask] = useState('')
     const [error, setError] = useState<string | null>(null)
@@ -20,7 +20,7 @@ export const Todolist = (props: TodolistType) => {
 
     const addTask = () =>{
         if(newTask.trim() !== ''){
-            props.addTask(newTask)
+            props.addTask(newTask, props.id)
             setNewTask('')
         }else {
             setError('Title is required')
@@ -28,13 +28,17 @@ export const Todolist = (props: TodolistType) => {
 
     }
 
-    const callBackRemoveTask = (id: string) => {
-        props.removeTask(id)
+    const callBackRemoveTask = (id: string, todolitstsId: string) => {
+        props.removeTask(id, todolitstsId)
+    }
+
+    const callBackRemoveTodolist = (todolitstsId: string) => {
+        props.removeTodolist(todolitstsId)
     }
 
     return (
         <div>
-            <h3>{props.title}</h3>
+            <h3>{props.title} <button onClick={()=>callBackRemoveTodolist((props.id))}>x</button></h3>
             <div>
                 <input value={newTask}
                        onChange={onClickHandler}
@@ -48,24 +52,24 @@ export const Todolist = (props: TodolistType) => {
                 {props.tasks.map(t => {
                     return (
                         <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                            <input type='checkbox' checked={t.isDone} onChange={(e)=>{props.changeStatus(t.id, e.currentTarget.checked)}}/>
+                            <input type='checkbox' checked={t.isDone} onChange={(e)=>{props.changeStatus(t.id, e.currentTarget.checked, props.id)}}/>
                             <span>{t.title}</span>
-                            <button onClick={() => {callBackRemoveTask(t.id)}}>x</button>
+                            <button onClick={() => {callBackRemoveTask(t.id, props.id)}}>x</button>
                         </li>
                     )
                 })}
             </ul>
             <div>
                 <button onClick={() => {
-                    props.filteredTask('all')
+                    props.filteredTask('all',  props.id)
                 }} className={props.filter === 'all' ? 'active-filter': ''}>All
                 </button>
                 <button onClick={() => {
-                    props.filteredTask('active')
+                    props.filteredTask('active',  props.id)
                 }} className={props.filter === 'active' ? 'active-filter': ''}>Active
                 </button>
                 <button onClick={() => {
-                    props.filteredTask('completed')
+                    props.filteredTask('completed',  props.id)
                 }} className={props.filter === 'completed' ? 'active-filter': ''}>Completed
                 </button>
             </div>
