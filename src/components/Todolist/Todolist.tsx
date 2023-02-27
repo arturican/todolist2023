@@ -13,16 +13,16 @@ export const Todolist = (props: TodolistAllType) => {
 
     const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
         setError(null)
-        if(event.key === 'Enter'){
+        if (event.key === 'Enter') {
             addTask()
         }
     }
 
-    const addTask = () =>{
-        if(newTask.trim() !== ''){
+    const addTask = () => {
+        if (newTask.trim() !== '') {
             props.addTask(newTask, props.id)
             setNewTask('')
-        }else {
+        } else {
             setError('Title is required')
         }
 
@@ -38,12 +38,14 @@ export const Todolist = (props: TodolistAllType) => {
 
     return (
         <div>
-            <h3>{props.title} <button onClick={()=>callBackRemoveTodolist((props.id))}>x</button></h3>
+            <h3>{props.title}
+                <button onClick={() => callBackRemoveTodolist((props.id))}>x</button>
+            </h3>
             <div>
                 <input value={newTask}
                        onChange={onClickHandler}
                        onKeyPress={onKeyPressHandler}
-                       className= {error ? 'error' : ''}
+                       className={error ? 'error' : ''}
                 />
                 <button onClick={addTask}>+</button>
                 {error && <div className='error-message'>{error}</div>}
@@ -52,25 +54,30 @@ export const Todolist = (props: TodolistAllType) => {
                 {props.tasks.map(t => {
                     return (
                         <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-                            <input type='checkbox' checked={t.isDone} onChange={(e)=>{props.changeStatus(t.id, e.currentTarget.checked, props.id)}}/>
+                            <input type='checkbox' checked={t.isDone} onChange={(e) => {
+                                props.changeStatus(t.id, e.currentTarget.checked, props.id)
+                            }}/>
                             <span>{t.title}</span>
-                            <button onClick={() => {callBackRemoveTask(t.id, props.id)}}>x</button>
+                            <button onClick={() => {
+                                callBackRemoveTask(t.id, props.id)
+                            }}>x
+                            </button>
                         </li>
                     )
                 })}
             </ul>
             <div>
                 <button onClick={() => {
-                    props.filteredTask('all',  props.id)
-                }} className={props.filter === 'all' ? 'active-filter': ''}>All
+                    props.filteredTask('all', props.id)
+                }} className={props.filter === 'all' ? 'active-filter' : ''}>All
                 </button>
                 <button onClick={() => {
-                    props.filteredTask('active',  props.id)
-                }} className={props.filter === 'active' ? 'active-filter': ''}>Active
+                    props.filteredTask('active', props.id)
+                }} className={props.filter === 'active' ? 'active-filter' : ''}>Active
                 </button>
                 <button onClick={() => {
-                    props.filteredTask('completed',  props.id)
-                }} className={props.filter === 'completed' ? 'active-filter': ''}>Completed
+                    props.filteredTask('completed', props.id)
+                }} className={props.filter === 'completed' ? 'active-filter' : ''}>Completed
                 </button>
             </div>
         </div>

@@ -9,7 +9,7 @@ export type TodolistAllType = {
     tasks: Array<TaskType>
     removeTask: (id: string, todolistId: string) => void
     filteredTask: (filter: FilterTaskType, todolistId: string) => void
-    addTask: (title: string,  todolistId: string) => void
+    addTask: (title: string, todolistId: string) => void
     changeStatus: (taskId: string, isDone: boolean, todolistId: string) => void
     filter: FilterTaskType
     id: string
@@ -36,7 +36,7 @@ type FilterTaskType = 'all' | 'completed' | 'active'
 
 function App() {
 
- let todolistID1 = v1()
+    let todolistID1 = v1()
     let todolistID2 = v1()
 
     let [todolists, setTodolists] = useState<Array<TodolistType>>([
@@ -58,33 +58,22 @@ function App() {
     })
 
     const removeTask = (id: string, todolistId: string) => {
-        let todolistTasks = tasks[todolistId]
-        tasks[todolistId] = todolistTasks.filter(t => t.id !== id)
-        setTasks({...tasks})
+        /* let todolistTasks = tasks[todolistId]
+         tasks[todolistId] = todolistTasks.filter(t => t.id !== id)*/
+        setTasks({...tasks, [todolistId]: tasks[todolistId].filter(t => t.id !== id)})
     }
 
     const addTask = (title: string, todolistId: string) => {
         const newTask = {id: v1(), title: title, isDone: false}
-        let todolistTasks = tasks[todolistId]
-        tasks[todolistId] = [newTask, ...todolistTasks]
-        setTasks({...tasks})
+        setTasks({...tasks, [todolistId]: [newTask, ...tasks[todolistId]]})
     }
 
     const filteredTask = (filter: FilterTaskType, todolistId: string) => {
-        let todolist = todolists.find(tl => tl.id === todolistId)
-        if (todolist) {
-            todolist.filter = filter
-            setTodolists([...todolists])
-        }
+        setTodolists(todolists.map(t => t.id === todolistId ? {...t, filter: filter} : t))
     }
 
     const changeStatus = (taskId: string, isDone: boolean, todolistId: string) => {
-        let todolistTasks = tasks[todolistId]
-     const  task = todolistTasks.find(t => t.id === taskId)
-        if (task) {
-            task.isDone = isDone
-        }
-        setTasks({...tasks})
+        setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
     }
 
     const removeTodolist = (todolistId: string) => {
@@ -93,7 +82,6 @@ function App() {
         setTasks({...tasks})
 
     }
-
 
 
     return (
@@ -109,9 +97,9 @@ function App() {
                 }
                 return (
                     <Todolist
-                        key = {tl.id}
-                        id = {tl.id}
-                        title= {tl.title}
+                        key={tl.id}
+                        id={tl.id}
+                        title={tl.title}
                         tasks={tasksForTodolist}
                         removeTask={removeTask}
                         filteredTask={filteredTask}
@@ -121,7 +109,7 @@ function App() {
                         removeTodolist={removeTodolist}
                     />
                 )
-                })
+            })
 
             }
         </div>
