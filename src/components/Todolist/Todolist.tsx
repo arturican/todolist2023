@@ -1,10 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {TodolistAllType} from "../../App";
+import {SuperInput} from "../SuperInput";
 
 
 export const Todolist = (props: TodolistAllType) => {
 
-    const [newTask, setNewTask] = useState('')
+/*    const [newTask, setNewTask] = useState('')
     const [error, setError] = useState<string | null>(null)
 
     const onClickHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -26,6 +27,10 @@ export const Todolist = (props: TodolistAllType) => {
             setError('Title is required')
         }
 
+    }*/
+
+    const addTaskHandler = (title: string) => {
+        props.addTask(title, props.id)
     }
 
     const callBackRemoveTask = (id: string, todolitstsId: string) => {
@@ -41,7 +46,7 @@ export const Todolist = (props: TodolistAllType) => {
             <h3>{props.title}
                 <button onClick={() => callBackRemoveTodolist((props.id))}>x</button>
             </h3>
-            <div>
+{/*            <div>
                 <input value={newTask}
                        onChange={onClickHandler}
                        onKeyPress={onKeyPressHandler}
@@ -49,7 +54,8 @@ export const Todolist = (props: TodolistAllType) => {
                 />
                 <button onClick={addTask}>+</button>
                 {error && <div className='error-message'>{error}</div>}
-            </div>
+            </div>*/}
+            <SuperInput callBack={addTaskHandler}/>
             <ul>
                 {props.tasks.map(t => {
                     return (

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
+import {SuperInput} from "./components/SuperInput";
 
 
 export type TodolistAllType = {
@@ -83,9 +84,19 @@ function App() {
 
     }
 
+    const addTodolist = (title: string) => {
+        const newTodolistId = v1();
+        setTodolists([...todolists, {id: newTodolistId, title: title, filter: 'all'}])
+        setTasks({
+            ...tasks, [newTodolistId]: [{id: v1(), title: 'Rest API', isDone: true},
+                {id: v1(), title: 'GraphQL', isDone: false},]
+        })
+    }
+
 
     return (
         <div className="App">
+            <SuperInput callBack={addTodolist}/>
             {todolists.map(tl => {
                 let allTodolistTasks = tasks[tl.id]
                 let tasksForTodolist = allTodolistTasks
