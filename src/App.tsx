@@ -15,6 +15,7 @@ export type TodolistAllType = {
     filter: FilterTaskType
     id: string
     removeTodolist: (todolistId: string) => void
+    editTask: (todolistId: string, taskId: string, newTitle: string) => void
 }
 type TodolistType = {
     id: string
@@ -93,6 +94,10 @@ function App() {
         })
     }
 
+    const editTask = (todolistId: string, taskId: string, newTitle: string) => {
+        console.log(newTitle)
+    }
+
 
     return (
         <div className="App">
@@ -118,6 +123,7 @@ function App() {
                         changeStatus={changeStatus}
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
+                        editTask={editTask}
                     />
                 )
             })

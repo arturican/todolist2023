@@ -1,6 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import {TodolistAllType} from "../../App";
 import {SuperInput} from "../SuperInput";
+import {EditableSpan} from "../EditableSpan";
 
 
 export const Todolist = (props: TodolistAllType) => {
@@ -58,12 +59,18 @@ export const Todolist = (props: TodolistAllType) => {
             <SuperInput callBack={addTaskHandler}/>
             <ul>
                 {props.tasks.map(t => {
+
+                    const editTaskHandler = (newTitle: string) => {
+                        props.editTask(props.id, t.id, newTitle)
+                    }
                     return (
+
                         <li key={t.id} className={t.isDone ? 'is-done' : ''}>
                             <input type='checkbox' checked={t.isDone} onChange={(e) => {
                                 props.changeStatus(t.id, e.currentTarget.checked, props.id)
                             }}/>
-                            <span>{t.title}</span>
+                          {/*  <span>{t.title}</span>*/}
+                            <EditableSpan OLDtitle={t.title} callBack={editTaskHandler}/>
                             <button onClick={() => {
                                 callBackRemoveTask(t.id, props.id)
                             }}>x
