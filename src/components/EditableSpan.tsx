@@ -1,5 +1,4 @@
 import React, {ChangeEvent, useState} from 'react';
-import {isNumber} from "util";
 
 type PropsType  = {
     OLDtitle: string
@@ -21,8 +20,8 @@ export const EditableSpan = (props: PropsType) => {
 
     return (
         edit
-        ? <input value={props.OLDtitle} onBlur={onDoubleClickHandler} autoFocus onChange={onChangeHandler}/>
-        : <span onDoubleClick={onDoubleClickHandler}>{props.OLDtitle}</span>
+        ? <input onChange={onChangeHandler} value={newTitle} onBlur={onDoubleClickHandler} autoFocus />
+        : <span onDoubleClick={onDoubleClickHandler}  >{props.OLDtitle}</span>
     );
 };
 
