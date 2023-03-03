@@ -6,29 +6,29 @@ import {EditableSpan} from "../EditableSpan";
 
 export const Todolist = (props: TodolistAllType) => {
 
-/*    const [newTask, setNewTask] = useState('')
-    const [error, setError] = useState<string | null>(null)
+    /*    const [newTask, setNewTask] = useState('')
+        const [error, setError] = useState<string | null>(null)
 
-    const onClickHandler = (e: ChangeEvent<HTMLInputElement>) => {
-        setNewTask(e.currentTarget.value)
-    }
-
-    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
-        if (event.key === 'Enter') {
-            addTask()
-        }
-    }
-
-    const addTask = () => {
-        if (newTask.trim() !== '') {
-            props.addTask(newTask, props.id)
-            setNewTask('')
-        } else {
-            setError('Title is required')
+        const onClickHandler = (e: ChangeEvent<HTMLInputElement>) => {
+            setNewTask(e.currentTarget.value)
         }
 
-    }*/
+        const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
+            setError(null)
+            if (event.key === 'Enter') {
+                addTask()
+            }
+        }
+
+        const addTask = () => {
+            if (newTask.trim() !== '') {
+                props.addTask(newTask, props.id)
+                setNewTask('')
+            } else {
+                setError('Title is required')
+            }
+
+        }*/
 
     const addTaskHandler = (title: string) => {
         props.addTask(title, props.id)
@@ -42,12 +42,17 @@ export const Todolist = (props: TodolistAllType) => {
         props.removeTodolist(todolitstsId)
     }
 
+    const editTodolistHandler = (newTitle: string) => {
+        props.editTodolist(props.id, newTitle)
+    }
+
     return (
         <div>
-            <h3>{props.title}
+            <h3>
+                <EditableSpan OLDtitle={props.title} callBack={editTodolistHandler}/>
                 <button onClick={() => callBackRemoveTodolist((props.id))}>x</button>
             </h3>
-{/*            <div>
+            {/*            <div>
                 <input value={newTask}
                        onChange={onClickHandler}
                        onKeyPress={onKeyPressHandler}
@@ -69,7 +74,7 @@ export const Todolist = (props: TodolistAllType) => {
                             <input type='checkbox' checked={t.isDone} onChange={(e) => {
                                 props.changeStatus(t.id, e.currentTarget.checked, props.id)
                             }}/>
-                          {/*  <span>{t.title}</span>*/}
+                            {/*  <span>{t.title}</span>*/}
                             <EditableSpan OLDtitle={t.title} callBack={editTaskHandler}/>
                             <button onClick={() => {
                                 callBackRemoveTask(t.id, props.id)

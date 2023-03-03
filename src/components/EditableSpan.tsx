@@ -3,6 +3,7 @@ import React, {ChangeEvent, useState} from 'react';
 type PropsType  = {
     OLDtitle: string
     callBack: (newTitle: string) => void
+
 }
 
 export const EditableSpan = (props: PropsType) => {

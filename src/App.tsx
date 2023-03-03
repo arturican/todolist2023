@@ -3,6 +3,7 @@ import './App.css';
 import {Todolist} from "./components/Todolist/Todolist";
 import {v1} from "uuid";
 import {SuperInput} from "./components/SuperInput";
+import {EditableSpan} from "./components/EditableSpan";
 
 
 export type TodolistAllType = {
@@ -16,6 +17,7 @@ export type TodolistAllType = {
     id: string
     removeTodolist: (todolistId: string) => void
     editTask: (todolistId: string, taskId: string, newTitle: string) => void
+    editTodolist: (todolistId: string, newTitle: string) => void
 }
 type TodolistType = {
     id: string
@@ -99,12 +101,21 @@ function App() {
     }
 
 
+    const editTodolist = (todolistID: string, newTitle: string) => {
+        setTodolists(todolists.map(t => t.id === todolistID ? {...t, title: newTitle} : t))
+    }
+
+
     return (
         <div className="App">
             <SuperInput callBack={addTodolist}/>
+
             {todolists.map(tl => {
+
+
                 let allTodolistTasks = tasks[tl.id]
                 let tasksForTodolist = allTodolistTasks
+
                 if (tl.filter === 'completed') {
                     tasksForTodolist = allTodolistTasks.filter(t => t.isDone)
                 }
@@ -124,6 +135,7 @@ function App() {
                         filter={tl.filter}
                         removeTodolist={removeTodolist}
                         editTask={editTask}
+                        editTodolist={editTodolist}
                     />
                 )
             })
